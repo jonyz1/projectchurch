@@ -1,8 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { register } from 'module';
 import { identity } from 'rxjs';
 import { createstudentdto } from './dto/create-student-dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
+import { FileUploaddto } from './dto/file.upload.dto';
+import { MultipleFileUploaddto } from './dto/MultipleFile.Upload.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { Roles } from 'src/auth/role/roles.decorator';
+import { Role } from 'src/auth/role/role.enum';
 
 @Controller('student')
 export class StudentController {
@@ -14,6 +21,7 @@ export class StudentController {
 
     }
 // /get list of all student 
+    // @UseGuards(AuthGuard)
     @Get()
     getall(){
         return this.studentservices.get()
@@ -26,9 +34,27 @@ export class StudentController {
 
     }
     // /add new student 
+
     @Post()
+    @Roles(Role.User)
     async addstudent(@Body() add:createstudentdto){
         return await this.studentservices.createstudent(add);
+
+    }
+    @UseInterceptors(FileInterceptor('file'))
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({description:'list of student data',type:FileUploaddto})
+    @Post()
+    async addbulkstudent(@UploadedFile() file){
+        
+
+    }
+    @UseInterceptors(FileInterceptor('file'))
+    @ApiConsumes('multipart/form-data')
+    @ApiBody({description:'list of student data',type:MultipleFileUploaddto})
+    @Post()
+    async addmultiplefiles(@UploadedFile() file){
+        
 
     }
     // /getcourse

@@ -37,9 +37,9 @@ export class CoursesService {
 // /remove course 
 // /redirect to the student info page 
 async getallcourse(){
-  const g:GradeAttendance=new GradeAttendance()
-  g.grade="a"
-  this.gradeRepository.save(g)
+  // const g:GradeAttendance=new GradeAttendance()
+  // g.grade="a"
+  // this.gradeRepository.save(g)
     return await this.courseRepository.find();
 }
 addcourse(create:createcoursedto){

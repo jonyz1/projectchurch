@@ -7,10 +7,17 @@ import { count } from 'console';
 import { Course } from 'src/entity/course.entity';
 import { Instructor } from 'src/entity/instructor.entity';
 import { GradeAttendance } from 'src/entity/grade.entity';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Student,Course,Instructor,GradeAttendance])],
   controllers: [GradeattendController],
-  providers: [GradeattendService],
+  providers: [GradeattendService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class GradeattendModule {}

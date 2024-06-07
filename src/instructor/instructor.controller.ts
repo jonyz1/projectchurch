@@ -1,6 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { InstructorService } from './instructor.service';
-import { createinstructuredto } from './dto/create-instructure-dto';
+import { UserRole, check, createinstructuredto } from './dto/create-instructure-dto';
+
+import { ApiBody, ApiQuery } from '@nestjs/swagger';
+import { channel } from 'diagnostics_channel';
+import { checkPrime } from 'crypto';
+import { Check } from 'typeorm';
 
 @Controller('instructor')
 export class InstructorController {
@@ -49,6 +54,11 @@ resign(@Body() bo:{courseId:number,instructorId:number}){
 remove(@Param("id") id:number){
     return this.instructorservice.deleteinstructor(id)
 }
+@Get("check")
+@ApiQuery({name:'role',enum:UserRole})
+async filterByRole(@Query('role') role:UserRole=UserRole.User) {}
+
+
 
 
 }

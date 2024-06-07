@@ -17,6 +17,8 @@ import { InstructorModule } from './instructor/instructor.module';
 import { GradeattendController } from './gradeattend/gradeattend.controller';
 import { GradeattendService } from './gradeattend/gradeattend.service';
 import { GradeattendModule } from './gradeattend/gradeattend.module';
+import { AuthModule } from './auth/auth.module';
+import { Login } from './entity/loginin.entity';
 
 @Module({
   imports: [StudentModule,
@@ -30,9 +32,10 @@ import { GradeattendModule } from './gradeattend/gradeattend.module';
     username: 'postgres',
     password: 'yohannes',
     database: 'newdb',
-    entities: [Student,Instructor,GradeAttendance,Course],
+    entities: [Student,Instructor,GradeAttendance,Course,Login],
     synchronize: true,
   }),
+    AuthModule,
     
    ],
   controllers: [],
